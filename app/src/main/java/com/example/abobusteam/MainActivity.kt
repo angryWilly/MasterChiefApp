@@ -15,11 +15,13 @@ import com.example.abobusteam.ui.theme.AbobusTeamTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val compose = ComposeSearch()
         setContent {
             AbobusTeamTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Greeting("Android")
+                    compose.DoSmth()
                 }
             }
         }
@@ -29,7 +31,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-            text = "Hello, Kirill $name!",
+            text = "Hello, $name!",
             modifier = modifier
     )
 }
