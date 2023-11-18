@@ -7,14 +7,33 @@ val service = Request.createService()
 
 ## Поиск рецептов
 
+### Датаклассы
+
+```kotlin
+data class RecipeListItem(
+    var id: Int,
+    var title: String,
+    var image: String
+)
+
+data class RecipeResponse(
+    var results: List<RecipeListItem>,
+    var offset: Int,
+    var number: Int,
+    var totalResults: Int
+)
+```
+
+Вывод кол-ва рецептов в выдаче и названия первого рецепта выдачи
+
 ```kotlin
 // offset = 0, query = pasta, diet = GlutenFree
 val recipeListCall = service.getRecipes(0, "pasta", Diet.GlutenFree)
 
-// вывод ответа в лог
 recipeListCall.enqueue( object : Callback<RecipeResponse> {
     override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
         Log.e("request:log", response.body()?.number.toString())
+        Log.e("request:log", response.body()?.results!![0].title)
     }
     override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
         Log.e("request:log", t.toString())
