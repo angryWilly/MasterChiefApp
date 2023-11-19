@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
@@ -29,36 +31,49 @@ import com.example.abobusteam.R
 
 @Composable
 fun SetupNewRecipes() {
-    Row (
-        horizontalArrangement = Arrangement.Center
-    ){
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(top = 12.dp,
+                end = 12.dp,
+                start = 12.dp)
+    ) {
         Text(
             text = "Новые рецепты",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(start = 12.dp)
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Row (
+        val context = LocalContext.current
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .padding(end = 12.dp, top = 6.dp)
-                .clickable {  }
-
+                .clip(shape = RoundedCornerShape(size = 8.dp))
+                .clickable {
+                    Toast
+                        .makeText(context, "Все", Toast.LENGTH_SHORT)
+                        .show()
+                }
         ) {
-            Text(
-                text = "Все",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-            )
 
-            Icon(
-                painter = painterResource(id = R.drawable.button_baseline_arrow_forward_24),
-                contentDescription = "Все"
-            )
+            Row(
+                modifier = Modifier
+                    .padding(6.dp)
+            ) {
+                Text(
+                    text = "Все",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
 
+                Icon(
+                    painter = painterResource(id = R.drawable.button_baseline_arrow_forward_24),
+                    contentDescription = "Все"
+                )
+
+            }
         }
     }
 
@@ -69,10 +84,7 @@ fun SetupNewRecipes() {
         Recipe(painterResource(id = R.drawable.solyanka), "Суп)"),
     )
 
-    LazyRow(
-        modifier = Modifier
-            .padding(10.dp)
-    ) {
+    LazyRow {
         itemsIndexed(newRecipes) { _: Int, item ->
             StepsRecipes(item)
         }
@@ -83,7 +95,7 @@ fun SetupNewRecipes() {
 fun StepsRecipes(recipe: Recipe) {
     Row(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(12.dp)
     ) {
         Column {
             val context = LocalContext.current

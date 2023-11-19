@@ -39,10 +39,7 @@ fun SetupActuals() {
         "Филе де Лизюргерс"
     )
 
-    LazyRow(
-        modifier = Modifier
-            .padding(10.dp)
-    ) {
+    LazyRow {
         itemsIndexed(stepsActual) { _: Int, item ->
             StepsActual(item)
         }
@@ -54,7 +51,7 @@ fun StepsActual(actuals: String) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(12.dp)
     ) {
         Box(
             contentAlignment = Alignment.CenterStart,
