@@ -7,23 +7,6 @@ val service = Request.createService()
 
 ## Поиск рецептов
 
-### Датаклассы
-
-```kotlin
-data class RecipeListItem(
-    var id: Int,
-    var title: String,
-    var image: String
-)
-
-data class RecipeResponse(
-    var results: List<RecipeListItem>,
-    var offset: Int,
-    var number: Int,
-    var totalResults: Int
-)
-```
-
 Вывод кол-ва рецептов в выдаче и названия первого рецепта выдачи
 
 ```kotlin
