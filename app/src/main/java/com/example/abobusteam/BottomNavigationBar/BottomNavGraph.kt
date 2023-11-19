@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.abobusteam.screens.DishRecipeScreen
+import com.example.abobusteam.screens.categoryPage.CategoryPage
 import com.example.abobusteam.screens.homePage.MainPage
 
 
@@ -22,7 +23,7 @@ fun BottomNavGraph(navController: NavHostController) {
             DishRecipeScreen()
         }
         composable(route = BottomBarScreen.Favorite.route) {
-
+            CategoryPage()
         }
     }
 }
