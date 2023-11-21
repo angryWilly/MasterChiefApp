@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -18,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.screens.homePage.StepsActual
 
 @Composable
 fun SetupHeader() {
@@ -46,13 +49,40 @@ fun SetupHeader() {
             }
             Text(
                 text = "Все рецепты",
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(start = 50.dp)
+                    .padding(start = 46.dp)
             )
-
-
         }
     }
+
+    Row(
+        modifier = Modifier
+            .padding(start = 10.dp)
+            .fillMaxWidth()
+    ){
+        Text(
+            text = "Выпечка",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(start = 14.dp)
+        )
+    }
+
+    val stepsHeader: List<String> = listOf(
+        "До часа",
+        "200 - 400 ккал",
+        "Выпечка",
+        "Диетическое"
+    )
+
+    LazyRow {
+        itemsIndexed(stepsHeader) { _: Int, item ->
+            StepsActual(item)
+        }
+    }
+
 }
+
