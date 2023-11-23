@@ -2,46 +2,61 @@ package com.example.abobusteam
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.IOException
+import okhttp3.Response as ResponseOkHTTP
 
 class APIKeyProvider : Interceptor {
     @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
+    override fun intercept(chain: Interceptor.Chain): ResponseOkHTTP {
         val builder = chain.request().newBuilder()
         builder.addHeader("x-api-key", "f6c7361a8152484fa8902c747b577387")
         return chain.proceed(builder.build())
     }
 }
 
-interface Request {
+interface SpoonacularAPI {
     @GET("recipes/complexSearch")
-    fun getRecipes(@Query("offset") offset: Int = 0,
-                   @Query("query") query: String = "",
-                   @Query("diet") diet: Diet = Diet.Default) : Call<RecipeResponse>
+    suspend fun getRecipes(@Query("offset") offset: Int = 0,
+                           @Query("query") query: String = "",
+                           @Query("diet") diet: Recipe.Diet = Recipe.Diet.Default,
+                           @Query("maxReadyTime") maxReadyTime: Int = 20) : RecipeListResponse
 
     @GET("recipes/{id}/information")
-    fun getRecipe(@Path(value = "id", encoded = true) id: Int) : Call<Recipe>
+    suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
+}
 
-    companion object {
-        private var BASE_URL = "https://api.spoonacular.com"
+class Request {
+    private val client = OkHttpClient.Builder().addNetworkInterceptor(APIKeyProvider()).build()
+    private val retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://api.spoonacular.com")
+        .client(client)
+        .build()
+        .create(SpoonacularAPI::class.java)
 
-        fun createService() : Request {
-            val client = OkHttpClient.Builder()
-            client.addNetworkInterceptor(APIKeyProvider())
+    suspend fun getRecipes(offset: Int = 0,
+                           query: String = "",
+                           diet : Recipe.Diet = Recipe.Diet.Default,
+                           maxReadyTime: Int = 20): List<RecipeListItem>
+    {
+        return retrofit.getRecipes(offset, query, diet, maxReadyTime).results
+    }
 
-            val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
-                .client(client.build())
-                .build()
-            return retrofit.create(Request::class.java)
-        }
+    suspend fun getRecipe(id: Int = 0) : Recipe {
+        val response = retrofit.getRecipe(id);
+        return Recipe(
+            response.id,
+            response.title,
+            response.image,
+            response.summary,
+            response.readyInMinutes,
+            response.instructions,
+            response.analyzedInstructions[0].steps
+        );
     }
 }
