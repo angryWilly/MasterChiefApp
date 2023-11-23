@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.abobusteam"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.abobusteam"
@@ -64,4 +64,10 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation ("androidx.navigation:navigation-compose:2.7.5")
+    implementation ("androidx.compose.material:material:1.5.4")
+
+    implementation("com.github.skydoves:landscapist-glide:2.2.12")
+
 }
