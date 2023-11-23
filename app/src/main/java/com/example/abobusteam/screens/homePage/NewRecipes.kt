@@ -1,7 +1,6 @@
 package com.example.abobusteam.screens.homePage
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,17 +16,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.abobusteam.R
+import com.example.abobusteam.RecipeListItem
+import com.example.abobusteam.Request
+import kotlinx.coroutines.runBlocking
+import kotlin.random.Random
 
 @Composable
 fun SetupNewRecipes() {
@@ -77,60 +83,56 @@ fun SetupNewRecipes() {
         }
     }
 
-    val newRecipes: List<Recipe> = listOf(
-        Recipe(painterResource(id = R.drawable.pie_usa), "Американский тыквенный пирог с корицей"),
-        Recipe(painterResource(id = R.drawable.solyanka), "Солянка"),
-        Recipe(painterResource(id = R.drawable.solyanka), "Борщ"),
-        Recipe(painterResource(id = R.drawable.solyanka), "Суп)"),
-    )
+    val request = Request()
+    var randomOffset = Random.nextInt(0, 100)
+    val recipes by remember {
+        mutableStateOf(runBlocking {
+            request.getRecipes(offset = randomOffset, count = 5)
+        })
+    }
+
 
     LazyRow {
-        itemsIndexed(newRecipes) { _: Int, item ->
+        itemsIndexed(recipes) { _: Int, item ->
             StepsRecipes(item)
         }
     }
 }
 
 @Composable
-fun StepsRecipes(recipe: Recipe) {
+fun StepsRecipes(recipe: RecipeListItem) {
     Row(
         modifier = Modifier
             .padding(12.dp)
     ) {
         Column {
             val context = LocalContext.current
-            Image(
-                painter = recipe.image,
-                contentDescription = recipe.name,
+            AsyncImage(
+                model = recipe.image,
+                contentDescription = recipe.title,
                 modifier = Modifier
-                    .height(100.dp)
-                    .width(200.dp)
-                    .clip(shape = RoundedCornerShape(size = 8.dp))
+                    .height(120.dp)
+                    .width(160.dp)
+                    .clip(shape = RoundedCornerShape(size = 12.dp))
                     .clickable {
                         Toast
-                            .makeText(context, recipe.name, Toast.LENGTH_SHORT)
+                            .makeText(context, recipe.title, Toast.LENGTH_SHORT)
                             .show()
                     }
             )
 
             Text(
-                text = recipe.name,
+                text = recipe.title,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
                 lineHeight = 14.sp,
                 overflow = TextOverflow.Clip,
                 modifier = Modifier
-                    .width(200.dp)
                     .height(40.dp)
-
+                    .width(160.dp)
             )
         }
 
     }
 }
-
-data class Recipe(
-    val image: Painter,
-    val name: String
-)
