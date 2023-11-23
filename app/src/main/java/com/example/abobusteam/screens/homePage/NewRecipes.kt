@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -92,7 +93,10 @@ fun SetupNewRecipes() {
     }
 
 
-    LazyRow {
+    LazyRow (
+        modifier = Modifier
+        .padding(12.dp)
+    ) {
         itemsIndexed(recipes) { _: Int, item ->
             StepsRecipes(item)
         }
@@ -101,38 +105,36 @@ fun SetupNewRecipes() {
 
 @Composable
 fun StepsRecipes(recipe: RecipeListItem) {
-    Row(
+    Column (
         modifier = Modifier
-            .padding(12.dp)
+            .padding(end = 16.dp)
+            .width(225.dp)
     ) {
-        Column {
-            val context = LocalContext.current
-            AsyncImage(
-                model = recipe.image,
-                contentDescription = recipe.title,
-                modifier = Modifier
-                    .height(120.dp)
-                    .width(160.dp)
-                    .clip(shape = RoundedCornerShape(size = 12.dp))
-                    .clickable {
-                        Toast
-                            .makeText(context, recipe.title, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-            )
+        val context = LocalContext.current
+        AsyncImage(
+            model = recipe.image,
+            contentScale = ContentScale.FillBounds,
+            contentDescription = recipe.title,
+            modifier = Modifier
+                .height(125.dp)
+                .clip(shape = RoundedCornerShape(size = 12.dp))
+                .clickable {
+                    Toast
+                        .makeText(context, recipe.title, Toast.LENGTH_SHORT)
+                        .show()
+                }
+        )
 
-            Text(
-                text = recipe.title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 2,
-                lineHeight = 14.sp,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(160.dp)
-            )
-        }
-
+        Text(
+            text = recipe.title,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 2,
+            lineHeight = 14.sp,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(40.dp)
+        )
     }
 }
