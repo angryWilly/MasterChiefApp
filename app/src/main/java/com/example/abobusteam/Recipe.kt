@@ -7,7 +7,7 @@ data class RecipeListItem(
 )
 
 data class RecipeListResponse(
-    var results: List<RecipeListItem>,
+    var results: MutableList<RecipeListItem>,
     var offset: Int,
     var number: Int,
     var totalResults: Int
