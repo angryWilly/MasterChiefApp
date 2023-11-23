@@ -51,6 +51,12 @@ class Request {
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
         val response = retrofit.getRecipe(id);
+        val ingredients : MutableList<RecipeIngredient> = mutableListOf()
+
+        response.extendedIngredients.forEach {
+            ingredients.add(RecipeIngredient(it.name, it.measures.metric.amount, it.measures.metric.unitShort))
+        }
+
         return Recipe(
             response.id,
             response.title,
@@ -58,7 +64,8 @@ class Request {
             response.summary,
             response.readyInMinutes,
             response.instructions,
-            response.analyzedInstructions[0].steps
+            response.analyzedInstructions[0].steps,
+            ingredients
         );
     }
 }
