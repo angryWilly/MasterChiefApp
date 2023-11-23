@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 fun CategoryPage() {
     Column {
         SetupHeader()
+        SetFilter()
+        SetupImages()
 
     }
 }
