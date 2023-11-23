@@ -84,7 +84,7 @@ fun SetupNewRecipes() {
     }
 
     val request = Request()
-    var randomOffset = Random.nextInt(0, 100)
+    val randomOffset = Random.nextInt(0, 100)
     val recipes by remember {
         mutableStateOf(runBlocking {
             request.getRecipes(offset = randomOffset, count = 5)
@@ -127,7 +127,7 @@ fun StepsRecipes(recipe: RecipeListItem) {
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
                 lineHeight = 14.sp,
-                overflow = TextOverflow.Clip,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .height(40.dp)
                     .width(160.dp)
