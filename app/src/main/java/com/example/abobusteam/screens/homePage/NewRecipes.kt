@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
 import com.example.abobusteam.RecipeListItem
 import com.example.abobusteam.Request
@@ -46,7 +47,7 @@ fun SetupNewRecipes() {
                 start = 12.dp)
     ) {
         Text(
-            text = "Новые рецепты",
+            text = "New recipes",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -70,7 +71,7 @@ fun SetupNewRecipes() {
                     .padding(6.dp)
             ) {
                 Text(
-                    text = "Все",
+                    text = "All recipes",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                 )
@@ -105,12 +106,12 @@ fun SetupNewRecipes() {
 
 @Composable
 fun StepsRecipes(recipe: RecipeListItem) {
+    val navController = LocalNavController.current
     Column (
         modifier = Modifier
             .padding(end = 16.dp)
             .width(225.dp)
     ) {
-        val context = LocalContext.current
         AsyncImage(
             model = recipe.image,
             contentScale = ContentScale.FillBounds,
@@ -119,9 +120,7 @@ fun StepsRecipes(recipe: RecipeListItem) {
                 .height(125.dp)
                 .clip(shape = RoundedCornerShape(size = 12.dp))
                 .clickable {
-                    Toast
-                        .makeText(context, recipe.title, Toast.LENGTH_SHORT)
-                        .show()
+                    navController?.navigate(route = "search/" + recipe.id)
                 }
         )
 

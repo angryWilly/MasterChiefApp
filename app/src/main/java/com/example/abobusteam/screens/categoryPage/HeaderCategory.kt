@@ -25,18 +25,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.LocalNavController
+import com.example.abobusteam.RecipeListItem
 
 //import com.example.abobusteam.screens.homePage.StepsActual
 
 @Composable
-fun SetupHeader() {
+fun SetupHeader(recipeList: List<RecipeListItem>, category:String?) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
             .padding(top = 14.dp, start = 10.dp, bottom = 2.dp)
             .fillMaxWidth()
     ) {
-
+        val navController = LocalNavController.current
         Box(
             contentAlignment = Alignment.CenterStart
         ) {
@@ -50,11 +52,14 @@ fun SetupHeader() {
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back Button",
                     modifier = Modifier
-                        .size(32.dp),
+                        .size(32.dp)
+                        .clickable{
+                            navController?.navigateUp()
+                        },
                 )
             }
             Text(
-                text = "Все рецепты",
+                text = "All recipe",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -69,7 +74,7 @@ fun SetupHeader() {
             .fillMaxWidth()
     ) {
         Text(
-            text = "Выпечка",
+            text = category!!,
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier

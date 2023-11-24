@@ -16,12 +16,12 @@ sealed class BottomBarScreen (
     )
 
     object Search : BottomBarScreen(
-        route = "search",
+        route = "search/{id}",
         icon = Icons.Default.Search
     )
 
     object Favorite : BottomBarScreen(
-        route = "favorite",
+        route = "favorite/{category}",
         icon = Icons.Default.FavoriteBorder
     )
 }

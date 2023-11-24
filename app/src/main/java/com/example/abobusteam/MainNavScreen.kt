@@ -26,7 +26,8 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun MainScreen() {
-    val navController = rememberNavController()
+    val navController = LocalNavController.current
+    val mainScreenNavController = rememberNavController()
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
@@ -40,27 +41,31 @@ fun MainScreen() {
             BottomNavGraph(navController = navController)
         }
     }
+
 }
 
+
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(navController: NavHostController?) {
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.Search,
         BottomBarScreen.Favorite,
     )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val navBackStackEntry by navController!!.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
     BottomNavigation(
         backgroundColor = Color.White
     ) {
         screens.forEach { screen ->
-            AddItem(
-                screen = screen,
-                currentDestination = currentDestination,
-                navController = navController
-            )
+            if (navController != null) {
+                AddItem(
+                    screen = screen,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
         }
     }
 }
@@ -86,10 +91,19 @@ fun RowScope.AddItem(
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         selectedContentColor = Color.Cyan,
         onClick = {
-            navController.navigate(screen.route) {
+            navController.navigate("home") {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
         }
     )
 }
+
+/*
+@Composable
+fun MainContent(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = "mainScreen") {
+        composable("mainScreen") { MainScreenContent() }
+        composable("otherScreen") { OtherScreenContent() }
+    }
+}*/

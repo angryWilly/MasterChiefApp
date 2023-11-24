@@ -1,6 +1,5 @@
 package com.example.abobusteam.screens.homePage
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,12 +23,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
+import com.example.abobusteam.Recipe
 
 @Composable
 fun SetupWouldYouWantToCook() {
     Text(
-        text = "Что хотите приготовить?",
+        text = "What do you want to cook?",
         fontSize = 22.sp,
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier
@@ -37,12 +38,12 @@ fun SetupWouldYouWantToCook() {
     )
 
     val categoryItems = listOf(
-        Category(painterResource(id = R.drawable.breakfast), "Завтрак"),
-        Category(painterResource(id = R.drawable.lunch), "Обед"),
-        Category(painterResource(id = R.drawable.dinner), "Ужин"),
-        Category(painterResource(id = R.drawable.salad), "Салаты"),
-        Category(painterResource(id = R.drawable.snacks), "Закуски"),
-        Category(painterResource(id = R.drawable.deserts), "Десерты"),
+        Category(painterResource(id = R.drawable.breakfast), Recipe.Type.Breakfast.toString()),
+        Category(painterResource(id = R.drawable.lunch), Recipe.Type.Lunch.toString()),
+        Category(painterResource(id = R.drawable.dinner), Recipe.Type.Dinner.toString()),
+        Category(painterResource(id = R.drawable.salad), Recipe.Type.Salad.toString()),
+        Category(painterResource(id = R.drawable.snacks), Recipe.Type.Snack.toString()),
+        Category(painterResource(id = R.drawable.deserts), Recipe.Type.Dessert.toString()),
     )
 
     LazyVerticalStaggeredGrid(
@@ -52,8 +53,8 @@ fun SetupWouldYouWantToCook() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalItemSpacing = 16.dp
     ) {
-        items(categoryItems) {
-            item -> StepsCategory(item = item)
+        items(categoryItems) { item ->
+            StepsCategory(item = item)
         }
 
     }
@@ -63,6 +64,7 @@ fun SetupWouldYouWantToCook() {
 @Composable
 fun StepsCategory(item: Category) {
     Column {
+        val navController = LocalNavController.current
         val context = LocalContext.current
         Image(
             painter = item.image,
@@ -72,9 +74,7 @@ fun StepsCategory(item: Category) {
                 .width(100.dp)
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .clickable {
-                    Toast
-                        .makeText(context, item.name, Toast.LENGTH_SHORT)
-                        .show()
+                    navController?.navigate(route = "favorite/" + item.name)
                 }
         )
 

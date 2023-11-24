@@ -1,19 +1,17 @@
 package com.example.abobusteam.screens.categoryPage
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -36,10 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
+import com.example.abobusteam.RecipeListItem
 
 @Composable
-fun SetFilter() {
+fun SetFilter(recipeList: List<RecipeListItem>) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -47,7 +48,7 @@ fun SetFilter() {
             .fillMaxWidth()
     ) {
         Text(
-            text = "По популярности",
+            text = "Popular",
             fontSize = 16.sp,
             color = Color.Gray,
             modifier = Modifier
@@ -59,29 +60,57 @@ fun SetFilter() {
             tint = Color.Gray
         )
     }
-    //LazyColumn(content = ) {}
+    LazyColumn {
+        items(recipeList) { recipe ->
+            SetupImages(recipe)
+        }
+    }
 }
 
 @Composable
-fun SetupImages() {
+fun SetupImages(recipe: RecipeListItem) {
+    val navController = LocalNavController.current
     Row(
         modifier = Modifier
             .padding(18.dp)
     ) {
-        Box() {
-            Image(painter = painterResource(id = R.drawable.solyanka),
-                contentScale = ContentScale.FillHeight,
-                contentDescription = "solyanka",
+        Box {
+            AsyncImage(
+                model = recipe.image,
+                contentDescription = recipe.title,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .height(120.dp)
                     .width(120.dp)
                     .padding(end = 10.dp)
                     .clip(shape = RoundedCornerShape(size = 10.dp))
-                    .clickable {}
             )
+        }
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 12.dp)
+            ) {
+                Text(
+                    text = recipe.title,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .clickable{
+                            navController?.navigate(route = "search/" + recipe.id)
+                        }
+                )
+                /*                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "30 $",
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold
+                                )*/
+            }
             var favIconStyle by remember { mutableStateOf(Icons.Default.FavoriteBorder) }
             IconButton(
-                    //.clip(shape = RoundedCornerShape(size = 100.dp))
+                modifier = Modifier
+                    .align(Alignment.End),
                 onClick = {
                     if (favIconStyle == Icons.Default.FavoriteBorder)
                         favIconStyle = Icons.Default.Favorite
@@ -98,26 +127,7 @@ fun SetupImages() {
                 )
             }
 
-        }
-        Column {
-            Row(
-                modifier = Modifier
-                    .padding(bottom = 12.dp)
-            ) {
-                Text(
-                    text = "Название",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "30 $",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Row(
+            /*Row(
                 modifier = Modifier
                     .padding(bottom = 4.dp)
             ) {
@@ -141,7 +151,7 @@ fun SetupImages() {
                     text = "1 ч",
                     color = Color.Gray
                 )
-            }
+            }*/
         }
     }
 
