@@ -14,7 +14,7 @@ class APIKeyProvider : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): ResponseOkHTTP {
         val builder = chain.request().newBuilder()
-        builder.addHeader("x-api-key", "f6c7361a8152484fa8902c747b577387")
+        builder.addHeader("x-api-key", "0f42cff862b4415eada3c2bbf03335c7")
         return chain.proceed(builder.build())
     }
 }
