@@ -1,13 +1,21 @@
 package com.example.abobusteam
 
+data class RecipeListItemIml(
+    var id: Int,
+    var title: String,
+    var image: String,
+    var pricePerServing: Float,
+)
+
 data class RecipeListItem(
     var id: Int,
     var title: String,
-    var image: String
+    var image: String,
+    var pricePerServing: Int,
 )
 
 data class RecipeListResponse(
-    var results: MutableList<RecipeListItem>,
+    var results: MutableList<RecipeListItemIml>,
     var offset: Int,
     var number: Int,
     var totalResults: Int

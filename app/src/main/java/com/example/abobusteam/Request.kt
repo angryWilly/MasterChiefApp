@@ -29,7 +29,8 @@ interface SpoonacularAPI {
                            @Query("minCalories") minCalories: Int = 0,
                            @Query("maxCalories") maxCalories: Int = 9999,
                            @Query("number") number: Int = 10,
-                           @Query("type") type: Recipe.Type = Recipe.Type.Default) : RecipeListResponse
+                           @Query("type") type: Recipe.Type = Recipe.Type.Default,
+                           @Query("addRecipeInformation") addRecipeInformation: Boolean = true) : RecipeListResponse
 
     @GET("recipes/{id}/information")
     suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
@@ -55,9 +56,16 @@ class Request {
                            minCalories: Int = 0,
                            maxCalories: Int = 9999,
                            type: Recipe.Type = Recipe.Type.Default,
-                           count: Int = 10): List<RecipeListItem>
+                           count: Int = 10): MutableList<RecipeListItem>
     {
-        return retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count, type).results
+        val response = retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count, type).results
+        val result : MutableList<RecipeListItem> = mutableListOf()
+
+        response.forEach {
+            result.add(RecipeListItem(it.id, it.title, it.image, (it.pricePerServing / 100).roundToInt()))
+        }
+
+        return result
     }
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
@@ -78,7 +86,7 @@ class Request {
             response.instructions,
             response.analyzedInstructions.getOrNull(0)?.steps,
             ingredients,
-        );
+        )
     }
 
     suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 3) : List<RecipeListItem> {
