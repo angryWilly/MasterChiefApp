@@ -79,6 +79,7 @@ data class Recipe(
     var image: String,
     var summary: String,
     var readyInMinutes: Int,
+    var pricePerServing: Int,
     var instructions: String,
     var steps: List<RecipeInstructionStep>,
     var ingredients: List<RecipeIngredient>

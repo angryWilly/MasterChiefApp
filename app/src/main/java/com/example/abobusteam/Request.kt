@@ -67,9 +67,10 @@ class Request {
             response.image,
             response.summary,
             response.readyInMinutes,
+            response.pricePerServing,
             response.instructions,
             response.analyzedInstructions[0].steps,
-            ingredients
+            ingredients,
         );
     }
 
