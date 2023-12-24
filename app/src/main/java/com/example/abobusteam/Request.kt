@@ -30,6 +30,10 @@ interface SpoonacularAPI {
 
     @GET("recipes/{id}/information")
     suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
+
+    @GET("recipes/findByIngredients")
+    suspend fun getRecipesByIngredients(@Query("ingredients") ingredients: String = "",
+                                        @Query("number") number: Int = 3) : List<RecipeListItem>
 }
 
 class Request {
@@ -69,5 +73,9 @@ class Request {
             response.analyzedInstructions[0].steps,
             ingredients
         )
+    }
+
+    suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 3) : List<RecipeListItem> {
+        return retrofit.getRecipesByIngredients(ingredients, number)
     }
 }

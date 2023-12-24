@@ -62,6 +62,7 @@ data class RecipeResponse(
     var instructions: String,
     var readyInMinutes: Int,
     var servings: Int,
+    var pricePerServing: Int,
     var analyzedInstructions: List<RecipeAnalyzedInstruction>, // length == 1
     var extendedIngredients: List<RecipeExtendedIngredientsResponse>
 )
