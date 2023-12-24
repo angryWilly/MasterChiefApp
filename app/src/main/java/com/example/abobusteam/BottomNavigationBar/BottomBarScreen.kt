@@ -1,13 +1,10 @@
 package com.example.abobusteam
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 
 sealed class BottomBarScreen (
     val route: String,
@@ -19,12 +16,12 @@ sealed class BottomBarScreen (
     )
 
     object Search : BottomBarScreen(
-        route = "search/{id}",
+        route = "search",
         icon = Icons.Default.Search
     )
 
     object Ingredients : BottomBarScreen(
-        route = "ingredients/{ingredients}",
+        route = "ingredients",
         icon = Icons.Default.ShoppingCart
     )
 }

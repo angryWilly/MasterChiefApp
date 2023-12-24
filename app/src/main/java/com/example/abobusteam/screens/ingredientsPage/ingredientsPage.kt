@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.LocalNavController
 
 @Composable
 fun IngredientsPage() {
@@ -90,6 +91,8 @@ fun IngredientsSection(
         mutableStateOf("")
     }
 
+    val navController = LocalNavController.current
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(120.dp)
     ) {
@@ -132,6 +135,7 @@ fun IngredientsSection(
         onClick = {
             selectedIngredientsText = selectedIngredientIndices.joinToString(separator = ",") { ingredients[it] }
 
+            //GET REQUEST FOR INGREDIENTS SEARCH
         },
         modifier = Modifier
             .padding(16.dp)
