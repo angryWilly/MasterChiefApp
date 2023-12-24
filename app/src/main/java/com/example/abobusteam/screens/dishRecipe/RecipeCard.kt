@@ -53,24 +53,22 @@ fun RecipeCard(recipe: Recipe) {
             .fillMaxWidth()
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.calories_image),
-            contentDescription = "Calories",
-            tint = Color.Gray
-        )
-        Text(
-            text = "476 кКал",
-            color = Color.Gray,
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(end = 16.dp)
-        )
-        Icon(
             painter = painterResource(id = R.drawable.cooking_time_img),
             contentDescription = "cooking time",
             tint = Color.Gray
         )
         Text(
-            text = "1 ч",
+            text = recipe.readyInMinutes.toString() + "min",
+            color = Color.Gray,
+            fontSize = 18.sp,
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.recipe_price),
+            contentDescription = "recipe price",
+            tint = Color.Gray
+        )
+        Text(
+            text = recipe.pricePerServing.toString(),
             color = Color.Gray,
             fontSize = 18.sp,
         )

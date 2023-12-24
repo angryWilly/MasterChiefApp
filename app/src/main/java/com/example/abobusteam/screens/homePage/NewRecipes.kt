@@ -120,7 +120,7 @@ fun StepsRecipes(recipe: RecipeListItem) {
                 .height(125.dp)
                 .clip(shape = RoundedCornerShape(size = 12.dp))
                 .clickable {
-                    navController?.navigate(route = "search/" + recipe.id)
+                    navController?.navigate(route = "recipe/" + recipe.id)
                 }
         )
 

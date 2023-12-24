@@ -36,7 +36,7 @@ data class RecipeInstructionStep(
 )
 
 data class RecipeAnalyzedInstruction(
-    var steps: List<RecipeInstructionStep>
+    var steps: List<RecipeInstructionStep>? = null
 )
 
 data class Measures(
@@ -62,8 +62,8 @@ data class RecipeResponse(
     var instructions: String,
     var readyInMinutes: Int,
     var servings: Int,
-    var pricePerServing: Int,
-    var analyzedInstructions: List<RecipeAnalyzedInstruction>, // length == 1
+    var pricePerServing: Float,
+    var analyzedInstructions: List<RecipeAnalyzedInstruction>? = null, // length == 1
     var extendedIngredients: List<RecipeExtendedIngredientsResponse>
 )
 
@@ -79,9 +79,10 @@ data class Recipe(
     var image: String,
     var summary: String,
     var readyInMinutes: Int,
-    var instructions: String,
-    var steps: List<RecipeInstructionStep>,
-    var ingredients: List<RecipeIngredient>
+    var pricePerServing: Int,
+    var instructions: String? = null,
+    var steps: List<RecipeInstructionStep>? = null,
+    var ingredients: List<RecipeIngredient>? = null
 ) {
     enum class Diet(val value: String) {
         Default(""),

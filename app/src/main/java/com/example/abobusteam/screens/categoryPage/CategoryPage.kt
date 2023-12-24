@@ -13,10 +13,18 @@ import kotlinx.coroutines.runBlocking
 fun CategoryPage(category: String?) {
     val api = Request()
     val recipe by remember {
-        val foundType = findTypeByValue(category!!)
-        mutableStateOf(runBlocking {
-            api.getRecipes(type = foundType!!, count = 30)
-        })
+        var foundType = Recipe.Type.Default
+        if(Recipe.Type.values().find { it.value.equals(category, ignoreCase = true) } != null){
+            foundType = findTypeByValue(category!!)!!
+            mutableStateOf(runBlocking {
+                api.getRecipes(type = foundType, count = 30)
+            })
+        }
+        else{
+            mutableStateOf(runBlocking {
+                api.getRecipes(query = category!!, count = 30)
+            })
+        }
     }
     Column {
         SetupHeader(recipe, category)

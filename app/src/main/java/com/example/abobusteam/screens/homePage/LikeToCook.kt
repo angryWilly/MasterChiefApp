@@ -74,7 +74,7 @@ fun StepsCategory(item: Category) {
                 .width(100.dp)
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .clickable {
-                    navController?.navigate(route = "favorite/" + item.name)
+                    navController?.navigate(route = "category/" + item.name)
                 }
         )
 
