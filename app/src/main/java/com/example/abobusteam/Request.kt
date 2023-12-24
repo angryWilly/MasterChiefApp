@@ -26,10 +26,10 @@ interface SpoonacularAPI {
                            @Query("query") query: String = "",
                            @Query("diet") diet: Recipe.Diet = Recipe.Diet.Default,
                            @Query("maxReadyTime") maxReadyTime: Int = 20,
+                           @Query("minCalories") minCalories: Int = 0,
+                           @Query("maxCalories") maxCalories: Int = 9999,
                            @Query("number") number: Int = 10,
-                           @Query("type") type:Recipe.Type,
-                           @Query("sort") sort:String = "price") : RecipeListResponse
-
+                           @Query("type") type:Recipe.Type) : RecipeListResponse
 
     @GET("recipes/{id}/information")
     suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
@@ -52,10 +52,11 @@ class Request {
                            query: String = "",
                            diet : Recipe.Diet = Recipe.Diet.Default,
                            maxReadyTime: Int = 20,
-                           count: Int = 10,
-                           type: Recipe.Type = Recipe.Type.Default): List<RecipeListItem>
+                           minCalories: Int = 0,
+                           maxCalories: Int = 9999,
+                           count: Int = 10): List<RecipeListItem>
     {
-        return retrofit.getRecipes(offset, query, diet, maxReadyTime, count, type).results
+        return retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count).results
     }
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
@@ -74,9 +75,9 @@ class Request {
             response.readyInMinutes,
             (response.pricePerServing / 100).roundToInt(),
             response.instructions,
-            response.analyzedInstructions?.getOrNull(0)?.steps,
+            response.analyzedInstructions.getOrNull(0)?.steps,
             ingredients,
-        )
+        );
     }
 
     suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 3) : List<RecipeListItem> {
