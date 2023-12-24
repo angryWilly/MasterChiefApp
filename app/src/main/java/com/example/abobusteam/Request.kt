@@ -29,7 +29,7 @@ interface SpoonacularAPI {
                            @Query("minCalories") minCalories: Int = 0,
                            @Query("maxCalories") maxCalories: Int = 9999,
                            @Query("number") number: Int = 10,
-                           @Query("type") type:Recipe.Type) : RecipeListResponse
+                           @Query("type") type: Recipe.Type = Recipe.Type.Default) : RecipeListResponse
 
     @GET("recipes/{id}/information")
     suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
@@ -54,9 +54,10 @@ class Request {
                            maxReadyTime: Int = 20,
                            minCalories: Int = 0,
                            maxCalories: Int = 9999,
+                           type: Recipe.Type = Recipe.Type.Default,
                            count: Int = 10): List<RecipeListItem>
     {
-        return retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count).results
+        return retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count, type).results
     }
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
