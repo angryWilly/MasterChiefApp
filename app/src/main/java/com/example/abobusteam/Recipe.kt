@@ -62,7 +62,7 @@ data class RecipeResponse(
     var instructions: String,
     var readyInMinutes: Int,
     var servings: Int,
-    var pricePerServing: Int,
+    var pricePerServing: Float,
     var analyzedInstructions: List<RecipeAnalyzedInstruction>, // length == 1
     var extendedIngredients: List<RecipeExtendedIngredientsResponse>
 )
@@ -79,7 +79,7 @@ data class Recipe(
     var image: String,
     var summary: String,
     var readyInMinutes: Int,
-    var pricePerServing: Int,
+    var pricePerServing: Float,
     var instructions: String,
     var steps: List<RecipeInstructionStep>,
     var ingredients: List<RecipeIngredient>
