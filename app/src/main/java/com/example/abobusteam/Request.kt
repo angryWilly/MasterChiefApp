@@ -8,6 +8,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.IOException
+import java.lang.Math.round
+import kotlin.math.roundToInt
 import okhttp3.Response as ResponseOkHTTP
 
 class APIKeyProvider : Interceptor {
@@ -25,6 +27,8 @@ interface SpoonacularAPI {
                            @Query("query") query: String = "",
                            @Query("diet") diet: Recipe.Diet = Recipe.Diet.Default,
                            @Query("maxReadyTime") maxReadyTime: Int = 20,
+                           @Query("minCalories") minCalories: Int = 0,
+                           @Query("maxCalories") maxCalories: Int = 9999,
                            @Query("number") number: Int = 10) : RecipeListResponse
 
     @GET("recipes/{id}/information")
@@ -48,9 +52,11 @@ class Request {
                            query: String = "",
                            diet : Recipe.Diet = Recipe.Diet.Default,
                            maxReadyTime: Int = 20,
+                           minCalories: Int = 0,
+                           maxCalories: Int = 9999,
                            count: Int = 10): List<RecipeListItem>
     {
-        return retrofit.getRecipes(offset, query, diet, maxReadyTime, count).results
+        return retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count).results
     }
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
@@ -67,9 +73,9 @@ class Request {
             response.image,
             response.summary,
             response.readyInMinutes,
-            response.pricePerServing,
+            (response.pricePerServing / 100).roundToInt(),
             response.instructions,
-            response.analyzedInstructions[0].steps,
+            response.analyzedInstructions.getOrNull(0)?.steps,
             ingredients,
         );
     }
