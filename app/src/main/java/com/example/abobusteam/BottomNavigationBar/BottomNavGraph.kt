@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.abobusteam.screens.DishRecipeScreen
 import com.example.abobusteam.screens.categoryPage.CategoryPage
 import com.example.abobusteam.screens.homePage.MainPage
+import com.example.abobusteam.screens.ingredientsPage.IngredientsPage
 
 
 @Composable
@@ -32,13 +33,9 @@ fun BottomNavGraph(navController: NavHostController?) {
                     DishRecipeScreen(it.arguments?.getInt("id"))
             }
             composable(
-                route = BottomBarScreen.Favorite.route,
-                arguments = listOf(navArgument("category") {
-                    type = NavType.StringType
-                })
+                route = BottomBarScreen.Ingredients.route
             ) {
-                if (it.arguments?.getString("category") != null)
-                    CategoryPage(it.arguments?.getString("category"))
+                IngredientsPage()
             }
         }
     }

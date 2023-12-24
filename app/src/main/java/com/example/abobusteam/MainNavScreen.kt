@@ -50,7 +50,7 @@ fun BottomBar(navController: NavHostController?) {
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.Search,
-        BottomBarScreen.Favorite,
+        BottomBarScreen.Ingredients,
     )
     val navBackStackEntry by navController!!.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -91,7 +91,7 @@ fun RowScope.AddItem(
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         selectedContentColor = Color.Cyan,
         onClick = {
-            navController.navigate("home") {
+            navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }

@@ -4,7 +4,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 
 sealed class BottomBarScreen (
     val route: String,
@@ -20,8 +23,8 @@ sealed class BottomBarScreen (
         icon = Icons.Default.Search
     )
 
-    object Favorite : BottomBarScreen(
-        route = "favorite/{category}",
-        icon = Icons.Default.FavoriteBorder
+    object Ingredients : BottomBarScreen(
+        route = "ingredients/{ingredients}",
+        icon = Icons.Default.ShoppingCart
     )
 }

@@ -33,28 +33,21 @@ fun IngredientsPage() {
     Column {
         SetupIngredientHeader()
         SetupIngredientBox()
-        SetupIngredientApplyButton()
     }
 }
 
+
 @Composable
-fun SetupIngredientApplyButton() {
-    Button(
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(158, 178, 218),
-            contentColor = Color.White
-        ),
-        onClick = {},
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Apply", fontSize = 24.sp)
+fun SetupIngredientHeader() {
+    Column {
+        Row {
+            Text(
+                text = "Fridge",
+                fontSize = 42.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
+            )
         }
     }
 }
@@ -79,7 +72,6 @@ fun SetupIngredientBox() {
                     )
                 }
 
-
                 IngredientsSection(ingredients = ingredientsList)
             }
         }
@@ -92,6 +84,10 @@ fun IngredientsSection(
 ) {
     var selectedIngredientIndices by remember {
         mutableStateOf(setOf<Int>())
+    }
+
+    var selectedIngredientsText by remember {
+        mutableStateOf("")
     }
 
     LazyVerticalGrid(
@@ -121,27 +117,39 @@ fun IngredientsSection(
                     color =
                     if (selectedIngredientIndices.contains(index)) Color.White
                     else Color.Black,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
                 )
             }
         }
     }
-}
 
-@Composable
-fun SetupIngredientHeader() {
-    Column {
-        Row {
-            Text(
-                text = "Fridge",
-                fontSize = 42.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
-            )
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(158, 178, 218),
+            contentColor = Color.White
+        ),
+        onClick = {
+            selectedIngredientsText = selectedIngredientIndices.joinToString(separator = ",") { ingredients[it] }
+
+        },
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Apply", fontSize = 24.sp)
         }
     }
+    
+    Text(text = "Selected ingredients: $selectedIngredientsText")
 }
+
+
 
 val ingredientsList = listOf(
     "Chicken",
