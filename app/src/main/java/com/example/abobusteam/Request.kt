@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.IOException
+import kotlin.math.roundToInt
 import okhttp3.Response as ResponseOkHTTP
 
 class APIKeyProvider : Interceptor {
@@ -26,7 +27,9 @@ interface SpoonacularAPI {
                            @Query("diet") diet: Recipe.Diet = Recipe.Diet.Default,
                            @Query("maxReadyTime") maxReadyTime: Int = 20,
                            @Query("number") number: Int = 10,
-                           @Query("type") type:Recipe.Type) : RecipeListResponse
+                           @Query("type") type:Recipe.Type,
+                           @Query("sort") sort:String = "price") : RecipeListResponse
+
 
     @GET("recipes/{id}/information")
     suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
@@ -69,9 +72,10 @@ class Request {
             response.image,
             response.summary,
             response.readyInMinutes,
+            (response.pricePerServing / 100).roundToInt(),
             response.instructions,
-            response.analyzedInstructions[0].steps,
-            ingredients
+            response.analyzedInstructions?.getOrNull(0)?.steps,
+            ingredients,
         )
     }
 

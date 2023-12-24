@@ -36,7 +36,7 @@ fun Ingredients(recipe: Recipe) {
     ) {
         var firstIteration = true
 
-        recipe.ingredients.forEach { ingredient ->
+        recipe.ingredients?.forEach { ingredient ->
             if (firstIteration) {
                 firstIteration = false
             } else {

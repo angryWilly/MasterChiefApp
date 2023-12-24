@@ -69,7 +69,7 @@ fun StepsActual(actuals: RecipeListItem) {
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(Color(0xFFeef4f8))
                 .clickable {
-                    navController?.navigate(route = "search/" + actuals.id)
+                    navController?.navigate(route = "recipe/" + actuals.id)
                 }
         ) {
             Text(

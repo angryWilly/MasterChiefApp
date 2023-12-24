@@ -39,7 +39,7 @@ fun RecipeSteps(recipe: Recipe){
             .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
             .fillMaxWidth()
     ) {
-        recipe.steps.forEach { step ->
+        recipe.steps?.forEach { step ->
             StepRow(step, stepNum)
             stepNum++
         }

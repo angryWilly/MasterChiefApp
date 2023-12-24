@@ -97,7 +97,7 @@ fun SetupImages(recipe: RecipeListItem) {
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .clickable{
-                            navController?.navigate(route = "search/" + recipe.id)
+                            navController?.navigate(route = "recipe/" + recipe.id)
                         }
                 )
                 /*                Spacer(modifier = Modifier.weight(1f))
