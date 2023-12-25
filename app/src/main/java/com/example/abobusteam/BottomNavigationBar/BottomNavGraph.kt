@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.abobusteam.screens.SearchScreen.Empty
 import com.example.abobusteam.screens.filtersPage.FiltersPage
-import com.example.abobusteam.screens.homePage.MainPage
 import com.example.abobusteam.screens.ingredientsPage.IngredientsPage
 
 
@@ -19,7 +18,7 @@ fun BottomNavGraph(navController: NavHostController?) {
             startDestination = BottomBarScreen.Home.route
         ) {
             composable(route = BottomBarScreen.Home.route) {
-                MainPage()
+                FiltersPage()
 
             }
             composable(
