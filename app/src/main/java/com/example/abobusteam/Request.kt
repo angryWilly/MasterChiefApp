@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.io.IOException
+import kotlin.math.roundToInt
 import okhttp3.Response as ResponseOkHTTP
 
 class APIKeyProvider : Interceptor {
@@ -25,11 +26,15 @@ interface SpoonacularAPI {
                            @Query("query") query: String = "",
                            @Query("diet") diet: Recipe.Diet = Recipe.Diet.Default,
                            @Query("maxReadyTime") maxReadyTime: Int = 20,
+                           @Query("minCalories") minCalories: Int = 0,
+                           @Query("maxCalories") maxCalories: Int = 9999,
                            @Query("number") number: Int = 10,
-                           @Query("type") type:Recipe.Type) : RecipeListResponse
+                           @Query("type") type: Recipe.Type = Recipe.Type.Default,
+                           @Query("addRecipeInformation") addRecipeInformation: Boolean = true) : RecipeListResponse
 
     @GET("recipes/{id}/information")
-    suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int) : RecipeResponse
+    suspend fun getRecipe(@Path(value = "id", encoded = true) id: Int,
+                          @Query("includeNutrition") includeNutrition : Boolean = true) : RecipeResponse
 
     @GET("recipes/findByIngredients")
     suspend fun getRecipesByIngredients(@Query("ingredients") ingredients: String = "",
@@ -49,18 +54,37 @@ class Request {
                            query: String = "",
                            diet : Recipe.Diet = Recipe.Diet.Default,
                            maxReadyTime: Int = 20,
-                           count: Int = 10,
-                           type: Recipe.Type = Recipe.Type.Default): List<RecipeListItem>
+                           minCalories: Int = 0,
+                           maxCalories: Int = 9999,
+                           type: Recipe.Type = Recipe.Type.Default,
+                           count: Int = 10): MutableList<RecipeListItem>
     {
-        return retrofit.getRecipes(offset, query, diet, maxReadyTime, count, type).results
+        val response = retrofit.getRecipes(offset, query, diet, maxReadyTime, minCalories, maxCalories, count, type).results
+        val result : MutableList<RecipeListItem> = mutableListOf()
+
+        response.forEach {
+            result.add(RecipeListItem(it.id, it.title, it.image, (it.pricePerServing / 100).roundToInt()))
+        }
+
+        return result
     }
 
     suspend fun getRecipe(id: Int = 0) : Recipe {
         val response = retrofit.getRecipe(id)
-        val ingredients : MutableList<RecipeIngredient> = mutableListOf()
 
+        val ingredients : MutableList<RecipeIngredient> = mutableListOf()
         response.extendedIngredients.forEach {
             ingredients.add(RecipeIngredient(it.name, it.measures.metric.amount, it.measures.metric.unitShort))
+        }
+
+        val nutrients = RecipeNutrients()
+        response.nutrition.nutrients.forEach {
+            when(it.name) {
+                "Calories" -> nutrients.calories = it.amount.roundToInt()
+                "Fat" -> nutrients.fat = it.amount.roundToInt()
+                "Carbohydrates" -> nutrients.carbohydrates = it.amount.roundToInt()
+                "Protein" -> nutrients.protein = it.amount.roundToInt()
+            }
         }
 
         return Recipe(
@@ -69,13 +93,15 @@ class Request {
             response.image,
             response.summary,
             response.readyInMinutes,
+            (response.pricePerServing / 100).roundToInt(),
             response.instructions,
-            response.analyzedInstructions[0].steps,
-            ingredients
+            response.analyzedInstructions.getOrNull(0)?.steps,
+            ingredients,
+            nutrients
         )
     }
 
-    suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 3) : List<RecipeListItem> {
+    suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 10) : List<RecipeListItem> {
         return retrofit.getRecipesByIngredients(ingredients, number)
     }
 }

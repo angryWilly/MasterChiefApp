@@ -49,7 +49,7 @@ fun CaloriesBox(recipe: Recipe) {
                         fontSize = 16.sp
                     )
                     Text(
-                        text = "10 г",
+                        text = recipe.nutrients.protein.toString() + " г",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                     )
@@ -64,7 +64,7 @@ fun CaloriesBox(recipe: Recipe) {
                         fontSize = 16.sp
                     )
                     Text(
-                        text = "10 г",
+                        text = recipe.nutrients.fat.toString() + " г",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                     )
@@ -77,7 +77,7 @@ fun CaloriesBox(recipe: Recipe) {
                         fontSize = 16.sp
                     )
                     Text(
-                        text = "10 г",
+                        text = recipe.nutrients.carbohydrates.toString() + " г",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                     )
