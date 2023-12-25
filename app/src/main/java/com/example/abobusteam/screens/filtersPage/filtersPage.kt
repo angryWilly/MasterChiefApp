@@ -9,11 +9,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.GlobalListHolder
+import com.example.abobusteam.GlobalListHolder.globalRecipeList
 import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.Recipe
 import com.example.abobusteam.Request
@@ -24,7 +25,7 @@ import kotlinx.coroutines.runBlocking
 //import com.example.abobusteam.screens.homePage.SetupCookingTime
 
 @Composable
-fun FiltersPage() {
+fun FiltersScreen() {
 
     var scrollState = rememberScrollState()
     val navController = LocalNavController.current
@@ -53,14 +54,26 @@ fun FiltersPage() {
                 .padding(24.dp)
                 .fillMaxWidth(),
             onClick = {
+                globalRecipeList.clear()
                 val api = Request()
-                mutableStateOf(runBlocking {
-                    api.getRecipes(
-                        type = Recipe.Type.valueOf(inputFilters.dishType),
+                var sendCat = ""
+                GlobalListHolder.minCost = if(inputFilters.minCost.isNotEmpty()) inputFilters.minCost.toInt() else Int.MIN_VALUE
+                GlobalListHolder.maxCost = if(inputFilters.maxCost.isNotEmpty()) inputFilters.maxCost.toInt() else Int.MAX_VALUE
 
-                        count = 30)
-                })
-                //navController?.navigate(route = "category/$value")
+                globalRecipeList = runBlocking {
+                    val minCalories = if (inputFilters.minCalory.isNotEmpty()) inputFilters.minCalory.toInt() else 0
+                    val maxCalories = if (inputFilters.maxCalory.isNotEmpty()) inputFilters.maxCalory.toInt() else 9999
+                    val recType = if (inputFilters.dishType.isNotEmpty()) getTypeFromString(inputFilters.dishType) else Recipe.Type.Default
+                    val recDiet = if (inputFilters.dietFilter.isNotEmpty()) getDietFromString(inputFilters.dietFilter) else Recipe.Diet.Default
+                    sendCat = "$recType $recDiet"
+                    api.getRecipes(
+                        type = recType!!,
+                        minCalories = minCalories,
+                        maxCalories = maxCalories,
+                        diet = recDiet!!,
+                        count = 100)
+                }
+                navController?.navigate(route = "category/$sendCat")
             }) {
 
             Text(
@@ -72,6 +85,13 @@ fun FiltersPage() {
 
         }
     }
+}
+
+fun getTypeFromString(input: String): Recipe.Type? {
+    return Recipe.Type.values().find { it.value == input }
+}
+fun getDietFromString(input: String): Recipe.Diet? {
+    return Recipe.Diet.values().find { it.value == input }
 }
 
 data class InputFilters(

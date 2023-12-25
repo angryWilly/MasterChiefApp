@@ -5,6 +5,7 @@ data class RecipeListItemIml(
     var title: String,
     var image: String,
     var pricePerServing: Float,
+    var nutrition: RecipeResponseNutrition,
 )
 
 data class RecipeListItem(
@@ -12,6 +13,7 @@ data class RecipeListItem(
     var title: String,
     var image: String,
     var pricePerServing: Int,
+    var nutrients: RecipeNutrients
 )
 
 data class RecipeListResponse(

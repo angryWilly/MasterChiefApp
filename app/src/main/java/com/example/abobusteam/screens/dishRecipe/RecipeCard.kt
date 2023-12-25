@@ -1,7 +1,6 @@
 package com.example.abobusteam.screens.dishRecipe
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,13 +35,6 @@ fun RecipeCard(recipe: Recipe) {
         Text(
             text = recipe.title,
             fontWeight = FontWeight.Bold,
-            fontSize = 32.sp
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            text = "$3",
             fontSize = 32.sp
         )
     }

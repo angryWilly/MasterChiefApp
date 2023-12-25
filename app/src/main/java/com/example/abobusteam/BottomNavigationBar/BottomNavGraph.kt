@@ -5,13 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.abobusteam.screens.filtersPage.FiltersPage
 import androidx.navigation.navArgument
 import com.example.abobusteam.screens.DishRecipeScreen
 import com.example.abobusteam.screens.SearchScreen
-import com.example.abobusteam.screens.categoryPage.CategoryPage
-import com.example.abobusteam.screens.homePage.MainPage
-import com.example.abobusteam.screens.ingredientsPage.IngredientsPage
+import com.example.abobusteam.screens.categoryPage.CategoryScreen
+import com.example.abobusteam.screens.filtersPage.FiltersScreen
+import com.example.abobusteam.screens.homePage.MainScreen
+import com.example.abobusteam.screens.ingredientsPage.IngredientsScreen
 
 
 @Composable
@@ -23,8 +23,7 @@ fun BottomNavGraph(navController: NavHostController?) {
             startDestination = BottomBarScreen.Home.route
         ) {
             composable(route = BottomBarScreen.Home.route) {
-                FiltersPage()
-
+                MainScreen()
             }
             composable(
                 route = BottomBarScreen.Search.route,
@@ -32,9 +31,14 @@ fun BottomNavGraph(navController: NavHostController?) {
                 SearchScreen()
             }
             composable(
+                route = "filters",
+            ) {
+                FiltersScreen()
+            }
+            composable(
                 route = BottomBarScreen.Ingredients.route
             ) {
-                IngredientsPage()
+                IngredientsScreen()
             }
             composable(
                 route = "category/{category}",
@@ -43,7 +47,7 @@ fun BottomNavGraph(navController: NavHostController?) {
                 })
             ) {
                 if (it.arguments?.getString("category") != null)
-                    CategoryPage(it.arguments?.getString("category"))
+                    CategoryScreen(it.arguments?.getString("category"))
             }
             composable(
                 route = "recipe/{id}",

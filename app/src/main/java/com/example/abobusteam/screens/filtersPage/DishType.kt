@@ -52,7 +52,7 @@ fun SetupType(inputFilters: InputFilters) {
                                 .weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            GridItemForType(Recipe.Type.values()[item].toString(), inputFilters)
+                            GridItemForType(Recipe.Type.values()[item].value, inputFilters)
                         }
                     }
                 }
@@ -65,6 +65,9 @@ fun SetupType(inputFilters: InputFilters) {
 
 @Composable
 fun GridItemForType(item: String, inputFilters: InputFilters) {
+    var itemtext = item
+    if(itemtext.isEmpty())
+        itemtext = "default"
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -77,7 +80,7 @@ fun GridItemForType(item: String, inputFilters: InputFilters) {
     )
     {
         Text(
-            text = item,
+            text = itemtext,
             modifier = Modifier.padding(10.dp)
         )
     }

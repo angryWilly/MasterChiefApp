@@ -52,7 +52,7 @@ fun SetupDiets(inputFilters: InputFilters) {
                                 .weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            GridItem(Recipe.Type.values()[item].toString(), inputFilters)
+                            GridItem(Recipe.Diet.values()[item].value, inputFilters)
                         }
                     }
                 }
@@ -63,6 +63,9 @@ fun SetupDiets(inputFilters: InputFilters) {
 
 @Composable
 fun GridItem(item: String, inputFilters: InputFilters) {
+    var itemtext = item
+    if(itemtext.isEmpty())
+        itemtext = "default"
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -74,7 +77,7 @@ fun GridItem(item: String, inputFilters: InputFilters) {
     )
     {
         Text(
-            text = item,
+            text = itemtext,
             modifier = Modifier.padding(10.dp)
         )
     }

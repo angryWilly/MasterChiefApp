@@ -38,7 +38,7 @@ interface SpoonacularAPI {
 
     @GET("recipes/findByIngredients")
     suspend fun getRecipesByIngredients(@Query("ingredients") ingredients: String = "",
-                                        @Query("number") number: Int = 3) : List<RecipeListItem>
+                                        @Query("number") number: Int = 3) : MutableList<RecipeListItem>
 }
 
 class Request {
@@ -49,6 +49,7 @@ class Request {
         .client(client)
         .build()
         .create(SpoonacularAPI::class.java)
+
 
     suspend fun getRecipes(offset: Int = 0,
                            query: String = "",
@@ -63,7 +64,17 @@ class Request {
         val result : MutableList<RecipeListItem> = mutableListOf()
 
         response.forEach {
-            result.add(RecipeListItem(it.id, it.title, it.image, (it.pricePerServing / 100).roundToInt()))
+            val nutrients = RecipeNutrients()
+            it.nutrition.nutrients.forEach { nutr ->
+                when(nutr.name) {
+                    "Calories" -> nutrients.calories = nutr.amount.roundToInt()
+                    "Fat" -> nutrients.fat = nutr.amount.roundToInt()
+                    "Carbohydrates" -> nutrients.carbohydrates = nutr.amount.roundToInt()
+                    "Protein" -> nutrients.protein = nutr.amount.roundToInt()
+                }
+            }
+
+            result.add(RecipeListItem(it.id, it.title, it.image, (it.pricePerServing / 100).roundToInt(), nutrients))
         }
 
         return result
@@ -101,7 +112,7 @@ class Request {
         )
     }
 
-    suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 10) : List<RecipeListItem> {
+    suspend fun getRecipesByIngredients(ingredients: String = "", number: Int = 10) : MutableList<RecipeListItem> {
         return retrofit.getRecipesByIngredients(ingredients, number)
     }
 }

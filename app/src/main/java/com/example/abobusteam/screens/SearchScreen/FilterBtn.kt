@@ -25,7 +25,7 @@ fun FilterBtn() {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .padding(bottom = 20.dp)
-            .clickable{navController?.navigate(route = "ingredients")}
+            .clickable{navController?.navigate(route = "filters")}
     ) {
         Icon(
             imageVector = Icons.Default.List,

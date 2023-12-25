@@ -27,10 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.GlobalListHolder
 import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
 import com.example.abobusteam.Recipe.Type
+import com.example.abobusteam.Request
+import com.example.abobusteam.screens.filtersPage.getTypeFromString
 import com.example.abobusteam.screens.homePage.Category
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun DishCategory(){
@@ -56,7 +60,17 @@ fun CategoryGrid(category: Category){
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
-            .clickable { navController?.navigate(route = "category/" + category.name) }
+            .clickable {
+                GlobalListHolder.globalRecipeList.clear()
+                val api = Request()
+                GlobalListHolder.globalRecipeList.clear()
+                GlobalListHolder.globalRecipeList = runBlocking {
+                    val foundType = getTypeFromString(category.name)!!
+                    api.getRecipes(
+                        type = foundType,
+                        count = 100)
+                }
+                navController?.navigate(route = "category/" + category.name) }
     ) {
         Image(
             painter = category.image,
@@ -94,17 +108,17 @@ fun CategoryGrid(category: Category){
 @Composable
 fun getDishPhotos(): List<Category> {
     return listOf(
-        Category(painterResource(id = R.drawable.main_course), Type.MainCourse.toString()),
-        Category(painterResource(id = R.drawable.side_dish), Type.SideDish.toString()),
-        Category(painterResource(id = R.drawable.breakfast), Type.Breakfast.toString()),
-        Category(painterResource(id = R.drawable.lunch), Type.Lunch.toString()),
-        Category(painterResource(id = R.drawable.dinner), Type.Dinner.toString()),
-        Category(painterResource(id = R.drawable.salad), Type.Salad.toString()),
-        Category(painterResource(id = R.drawable.snacks), Type.Snack.toString()),
-        Category(painterResource(id = R.drawable.deserts), Type.Dessert.toString()),
-        Category(painterResource(id = R.drawable.marinade), Type.Marinade.toString()),
-        Category(painterResource(id = R.drawable.drink), Type.Drink.toString()),
-        Category(painterResource(id = R.drawable.soup), Type.Soup.toString()),
-        Category(painterResource(id = R.drawable.beverage), Type.Beverage.toString())
+        Category(painterResource(id = R.drawable.main_course), Type.MainCourse.value),
+        Category(painterResource(id = R.drawable.side_dish), Type.SideDish.value),
+        Category(painterResource(id = R.drawable.breakfast), Type.Breakfast.value),
+        Category(painterResource(id = R.drawable.lunch), Type.Lunch.value),
+        Category(painterResource(id = R.drawable.dinner), Type.Dinner.value),
+        Category(painterResource(id = R.drawable.salad), Type.Salad.value),
+        Category(painterResource(id = R.drawable.snacks), Type.Snack.value),
+        Category(painterResource(id = R.drawable.deserts), Type.Dessert.value),
+        Category(painterResource(id = R.drawable.marinade), Type.Marinade.value),
+        Category(painterResource(id = R.drawable.drink), Type.Drink.value),
+        Category(painterResource(id = R.drawable.soup), Type.Soup.value),
+        Category(painterResource(id = R.drawable.beverage), Type.Beverage.value)
     )
 }

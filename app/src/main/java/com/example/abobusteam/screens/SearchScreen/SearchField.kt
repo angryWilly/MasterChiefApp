@@ -21,7 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.example.abobusteam.GlobalListHolder
 import com.example.abobusteam.LocalNavController
+import com.example.abobusteam.Request
+import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +57,16 @@ fun SearchField(){
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = {navController?.navigate(route = "category/$value")}
+            onDone = {
+                val api = Request()
+                GlobalListHolder.globalRecipeList.clear()
+                GlobalListHolder.globalRecipeList = runBlocking {
+                    api.getRecipes(
+                        query = value,
+                        count = 100)
+                }
+                navController?.navigate(route = "category/$value")
+            }
         ),
         modifier = Modifier
             .width(400.dp)

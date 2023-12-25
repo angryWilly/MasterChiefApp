@@ -27,10 +27,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.GlobalListHolder.globalRecipeList
 import com.example.abobusteam.LocalNavController
+import com.example.abobusteam.Request
+import kotlinx.coroutines.runBlocking
 
 @Composable
-fun IngredientsPage() {
+fun IngredientsScreen() {
     Column {
         SetupIngredientHeader()
         SetupIngredientBox()
@@ -134,8 +137,12 @@ fun IngredientsSection(
         ),
         onClick = {
             selectedIngredientsText = selectedIngredientIndices.joinToString(separator = ",") { ingredients[it] }
+            val api = Request()
+            globalRecipeList = runBlocking {
+                api.getRecipesByIngredients(selectedIngredientsText, 100)
+            }
+            navController?.navigate(route = "category/Ingredients")
 
-            //GET REQUEST FOR INGREDIENTS SEARCH
         },
         modifier = Modifier
             .padding(16.dp)
