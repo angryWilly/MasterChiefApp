@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "abobusTeam"
+rootProject.name = "MasterChief"
 include(":app")
  
