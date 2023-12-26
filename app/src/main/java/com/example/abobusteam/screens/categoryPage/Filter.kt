@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,25 +24,25 @@ import com.example.abobusteam.RecipeListItem
 
 @Composable
 fun SetFilter(recipeList: List<RecipeListItem>) {
-    val context = LocalContext.current
-/*    Row(
-        modifier = Modifier
-            .padding(start = 10.dp)
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = "Popular",
-            fontSize = 16.sp,
-            color = Color.Gray,
-            modifier = Modifier
-                .padding(start = 14.dp, bottom = 18.dp)
-        )
-        Icon(
-            painter = painterResource(id = R.drawable.bot_arrow),
-            contentDescription = "bot_arrow",
-            tint = Color.Gray
-        )
-    }*/
+    /*    val context = LocalContext.current
+      Row(
+           modifier = Modifier
+               .padding(start = 10.dp)
+               .fillMaxWidth()
+       ) {
+           Text(
+               text = "Popular",
+               fontSize = 16.sp,
+               color = Color.Gray,
+               modifier = Modifier
+                   .padding(start = 14.dp, bottom = 18.dp)
+           )
+           Icon(
+               painter = painterResource(id = R.drawable.bot_arrow),
+               contentDescription = "bot_arrow",
+               tint = Color.Gray
+           )
+       }*/
     LazyColumn {
         items(recipeList) { recipe ->
             SetupImages(recipe)
@@ -85,13 +84,14 @@ fun SetupImages(recipe: RecipeListItem) {
                         }
                 )
             }
+
             Text(
-                text = recipe.pricePerServing.toString() + "$",
+                text = if (recipe.pricePerServing > 0)  "$" + recipe.pricePerServing.toString() else "",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = recipe.nutrients.calories.toString() + "cal",
+                text = if (recipe.nutrients != null) recipe.nutrients?.calories.toString() + " cal" else "",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )

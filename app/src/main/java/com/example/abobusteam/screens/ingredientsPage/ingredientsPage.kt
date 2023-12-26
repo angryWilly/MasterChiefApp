@@ -1,5 +1,6 @@
 package com.example.abobusteam.screens.ingredientsPage
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -139,8 +140,11 @@ fun IngredientsSection(
             selectedIngredientsText = selectedIngredientIndices.joinToString(separator = ",") { ingredients[it] }
             val api = Request()
             globalRecipeList = runBlocking {
-                api.getRecipesByIngredients(selectedIngredientsText, 100)
+                api.getRecipesByIngredients(selectedIngredientsText, 20)
             }
+
+            Log.e("omg", globalRecipeList.toString())
+
             navController?.navigate(route = "category/Ingredients")
 
         },
@@ -156,8 +160,6 @@ fun IngredientsSection(
             Text("Apply", fontSize = 24.sp)
         }
     }
-    
-    Text(text = "Selected ingredients: $selectedIngredientsText")
 }
 
 

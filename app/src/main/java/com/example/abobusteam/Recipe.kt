@@ -13,7 +13,7 @@ data class RecipeListItem(
     var title: String,
     var image: String,
     var pricePerServing: Int,
-    var nutrients: RecipeNutrients
+    var nutrients: RecipeNutrients?
 )
 
 data class RecipeListResponse(
