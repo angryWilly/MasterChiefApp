@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -69,7 +70,7 @@ fun SetupIngredientBox() {
             Column {
                 Row {
                     Text(
-                        text = "Ingredients",
+                        text = "Select Ingredients",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
@@ -118,6 +119,7 @@ fun IngredientsSection(
                         else Color(238, 244, 248)
                     )
                     .width(IntrinsicSize.Min)
+                    .height(32.dp)
             ) {
                 Text(
                     text = ingredients[index],
