@@ -15,7 +15,7 @@
 
 ## How to Run the App
 
-To run the *MasterChief* application on your Android smartphone, simply install the [APK file](#how-to-run-the-app) provided.
+To run the *MasterChief* application on your Android smartphone, simply install the [APK file](https://github.com/angryWilly/MasterChiefApp/tags) provided.
 
 ---
 
@@ -36,4 +36,4 @@ To run the *MasterChief* application on your Android smartphone, simply install 
 
 ## Как запустить приложение
 
-Для запуска приложения *MasterChief* на вашем смартфоне на Android просто установите предоставленный [файл APK](#как-запустить-приложение).
+Для запуска приложения *MasterChief* на вашем смартфоне на Android просто установите предоставленный [файл APK](https://github.com/angryWilly/MasterChiefApp/tags).
