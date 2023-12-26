@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -35,7 +33,7 @@ fun SetupHeader(recipeList: List<RecipeListItem>, category:String?) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
-            .padding(top = 14.dp, start = 10.dp, bottom = 2.dp)
+            .padding(top = 14.dp, start = 10.dp)
             .fillMaxWidth()
     ) {
         val navController = LocalNavController.current
@@ -90,13 +88,13 @@ fun SetupHeader(recipeList: List<RecipeListItem>, category:String?) {
         "Десерт"
     )
 
-    LazyRow (
+/*    LazyRow (
         modifier = Modifier
         .padding(start = 14.dp, end = 14.dp)){
         itemsIndexed(sHeader) { _: Int, item ->
             StepsCategories(item)
         }
-    }
+    }*/
 }
 
 @Composable

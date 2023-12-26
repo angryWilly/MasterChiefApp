@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.abobusteam.GlobalListHolder
 import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
 import com.example.abobusteam.RecipeListItem
@@ -39,6 +40,7 @@ import kotlin.random.Random
 
 @Composable
 fun SetupNewRecipes() {
+    val navController = LocalNavController.current
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -69,6 +71,15 @@ fun SetupNewRecipes() {
             Row(
                 modifier = Modifier
                     .padding(6.dp)
+                    .clickable{
+                        val api = Request()
+                        GlobalListHolder.globalRecipeList.clear()
+                        GlobalListHolder.globalRecipeList = runBlocking {
+                            api.getRecipes(
+                                count = 100)
+                        }
+                        navController?.navigate(route = "category/" + "All")
+                    }
             ) {
                 Text(
                     text = "All recipes",
@@ -120,7 +131,7 @@ fun StepsRecipes(recipe: RecipeListItem) {
                 .height(125.dp)
                 .clip(shape = RoundedCornerShape(size = 12.dp))
                 .clickable {
-                    navController?.navigate(route = "search/" + recipe.id)
+                    navController?.navigate(route = "recipe/" + recipe.id)
                 }
         )
 

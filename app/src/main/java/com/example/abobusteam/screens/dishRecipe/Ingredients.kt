@@ -26,17 +26,17 @@ fun Ingredients(recipe: Recipe) {
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
-            .padding(start = 24.dp, bottom = 16.dp)
+            .padding(start = 24.dp, bottom = 8.dp)
     )
 
     Column(
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
+            .padding(start = 24.dp, end = 20.dp, bottom = 16.dp)
             .fillMaxWidth()
     ) {
         var firstIteration = true
 
-        recipe.ingredients.forEach { ingredient ->
+        recipe.ingredients?.forEach { ingredient ->
             if (firstIteration) {
                 firstIteration = false
             } else {

@@ -23,3 +23,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+object GlobalListHolder {
+    var globalRecipeList = mutableListOf<RecipeListItem>()
+    var minCost = Int.MIN_VALUE
+    var maxCost = Int.MAX_VALUE
+}

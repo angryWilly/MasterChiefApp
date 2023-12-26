@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 
 @Composable
-fun MainPage() {
+fun MainScreen() {
     Column {
         SetupActuals()
         SetupNewRecipes()

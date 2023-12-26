@@ -23,9 +23,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abobusteam.GlobalListHolder
 import com.example.abobusteam.LocalNavController
 import com.example.abobusteam.R
 import com.example.abobusteam.Recipe
+import com.example.abobusteam.Request
+import com.example.abobusteam.screens.categoryPage.findTypeByValue
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun SetupWouldYouWantToCook() {
@@ -74,7 +78,15 @@ fun StepsCategory(item: Category) {
                 .width(100.dp)
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .clickable {
-                    navController?.navigate(route = "favorite/" + item.name)
+                    val api = Request()
+                    GlobalListHolder.globalRecipeList.clear()
+                    GlobalListHolder.globalRecipeList = runBlocking {
+                        val foundType = findTypeByValue(item.name)!!
+                        api.getRecipes(
+                            type = foundType,
+                            count = 100)
+                    }
+                    navController?.navigate(route = "category/" + item.name)
                 }
         )
 

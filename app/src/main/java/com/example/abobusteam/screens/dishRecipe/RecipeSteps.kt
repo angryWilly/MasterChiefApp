@@ -28,7 +28,7 @@ fun RecipeSteps(recipe: Recipe){
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         modifier = Modifier
-            .padding(start = 24.dp, bottom = 16.dp)
+            .padding(start = 24.dp, bottom = 8.dp)
     )
 
 
@@ -36,10 +36,10 @@ fun RecipeSteps(recipe: Recipe){
     var stepNum = 1
     Column(
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 16.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 16.dp)
             .fillMaxWidth()
     ) {
-        recipe.steps.forEach { step ->
+        recipe.steps?.forEach { step ->
             StepRow(step, stepNum)
             stepNum++
         }
@@ -51,13 +51,14 @@ fun RecipeSteps(recipe: Recipe){
 @Composable
 fun StepRow(step: RecipeInstructionStep, stepNum: Int) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(8.dp)
+            .padding(bottom = 6.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(8.dp)
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(Color(0xFF9EB2DA))
                 .height(IntrinsicSize.Min)

@@ -1,13 +1,23 @@
 package com.example.abobusteam
 
+data class RecipeListItemIml(
+    var id: Int,
+    var title: String,
+    var image: String,
+    var pricePerServing: Float,
+    var nutrition: RecipeResponseNutrition,
+)
+
 data class RecipeListItem(
     var id: Int,
     var title: String,
-    var image: String
+    var image: String,
+    var pricePerServing: Int,
+    var nutrients: RecipeNutrients?
 )
 
 data class RecipeListResponse(
-    var results: MutableList<RecipeListItem>,
+    var results: MutableList<RecipeListItemIml>,
     var offset: Int,
     var number: Int,
     var totalResults: Int
@@ -54,6 +64,15 @@ data class RecipeExtendedIngredientsResponse(
     var name: String,
 )
 
+data class RecipeResponseNutrients(
+    var name: String,
+    var amount: Float,
+)
+
+data class RecipeResponseNutrition(
+    var nutrients: List<RecipeResponseNutrients>
+)
+
 data class RecipeResponse(
     var id: Int,
     var title: String,
@@ -62,8 +81,10 @@ data class RecipeResponse(
     var instructions: String,
     var readyInMinutes: Int,
     var servings: Int,
+    var pricePerServing: Float,
     var analyzedInstructions: List<RecipeAnalyzedInstruction>, // length == 1
-    var extendedIngredients: List<RecipeExtendedIngredientsResponse>
+    var extendedIngredients: List<RecipeExtendedIngredientsResponse>,
+    var nutrition: RecipeResponseNutrition
 )
 
 data class RecipeIngredient(
@@ -72,15 +93,24 @@ data class RecipeIngredient(
     var unit: String,
 )
 
+data class RecipeNutrients(
+    var calories: Int? = null,
+    var fat: Int? = null,              // жиры
+    var carbohydrates: Int? = null,    // углеводы
+    var protein: Int? = null           // белки
+)
+
 data class Recipe(
     var id: Int,
     var title: String,
     var image: String,
     var summary: String,
     var readyInMinutes: Int,
-    var instructions: String,
-    var steps: List<RecipeInstructionStep>,
-    var ingredients: List<RecipeIngredient>
+    var pricePerServing: Int,
+    var instructions: String?,
+    var steps: List<RecipeInstructionStep>?,
+    var ingredients: List<RecipeIngredient>?,
+    var nutrients: RecipeNutrients
 ) {
     enum class Diet(val value: String) {
         Default(""),
