@@ -6,6 +6,8 @@
 
 *MasterChief* is an Android application developed as a project for a Software Engineering course. The project is managed by [Natalya Khaustova](#team-members), with [Alexander Lukin](#team-members) serving as the system analyst and [Elizaveta Vasilieva](#team-members) as the designer.
 
+The application utilizes the [Spoonacular API](https://spoonacular.com/food-api) to enhance its functionality. It is designed to facilitate recipe search and discovery.
+
 ## Team Members
 
 1. **Natalya Khaustova** - Project Manager
@@ -26,6 +28,8 @@ To run the *MasterChief* application on your Android smartphone, simply install 
 ## Обзор
 
 *MasterChief* - это приложение для Android, разработанное в рамках проекта по программной инженерии. Проект управляется [Натальей Хаустовой](#участники-команды), с [Александром Лукиным](#участники-команды) в роли системного аналитика и [Елизаветой Васильевой](#участники-команды) - дизайнером.
+
+Приложение использует [Spoonacular API](https://spoonacular.com/food-api) для расширения своей функциональности. Оно предназначено для удобного поиска и открытия рецептов.
 
 ## Участники команды
 
