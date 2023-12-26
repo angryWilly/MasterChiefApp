@@ -1,5 +1,7 @@
 # MasterChief Android App
 
+[English](#overview) | [Русский](#обзор)
+
 ## Overview
 
 *MasterChief* is an Android application developed as a project for a Software Engineering course. The project is managed by [Natalya Khaustova](#team-members), with [Alexander Lukin](#team-members) serving as the system analyst and [Elizaveta Vasilieva](#team-members) as the designer.
