@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +27,9 @@ import com.example.abobusteam.Recipe
 
 @Composable
 fun SetupType(inputFilters: InputFilters) {
+
+    var selectedType by remember { mutableStateOf(0) }
+
 
     Text(
         text = "Dish Type",
@@ -52,7 +59,12 @@ fun SetupType(inputFilters: InputFilters) {
                                 .weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            GridItemForType(Recipe.Type.values()[item].value, inputFilters)
+                            GridItemForType(Recipe.Type.values()[item].value, inputFilters,
+                                isSelected = selectedType == item,
+                                onItemSelected = {
+                                    selectedType = item
+                                    inputFilters.updateDiets(it)
+                                })
                         }
                     }
                 }
@@ -64,7 +76,7 @@ fun SetupType(inputFilters: InputFilters) {
 }
 
 @Composable
-fun GridItemForType(item: String, inputFilters: InputFilters) {
+fun GridItemForType(item: String, inputFilters: InputFilters, isSelected: Boolean, onItemSelected: (String) -> Unit) {
     var itemtext = item
     if(itemtext.isEmpty())
         itemtext = "default"
@@ -73,9 +85,9 @@ fun GridItemForType(item: String, inputFilters: InputFilters) {
         modifier = Modifier
             .width(112.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xff9eb2da))
-            .clickable {
-                inputFilters.updateDishType(item)
+            .background(if (isSelected) Color(0xff5AEFCB) else Color(0xff9eb2da))
+            .clickable{
+                onItemSelected(item)
             }
     )
     {

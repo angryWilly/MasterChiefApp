@@ -41,7 +41,7 @@ fun DishCategory(){
 
     val category: List<Category> = getDishPhotos()
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 192.dp),
+        columns = GridCells.Adaptive(minSize = 164.dp),
         modifier = Modifier.padding(bottom = 10.dp)
     ){
         item(span = { GridItemSpan(2) }){
