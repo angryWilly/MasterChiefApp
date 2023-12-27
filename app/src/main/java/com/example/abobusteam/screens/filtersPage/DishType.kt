@@ -63,7 +63,7 @@ fun SetupType(inputFilters: InputFilters) {
                                 isSelected = selectedType == item,
                                 onItemSelected = {
                                     selectedType = item
-                                    inputFilters.updateDiets(it)
+                                    inputFilters.updateDishType(it)
                                 })
                         }
                     }
